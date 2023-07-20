@@ -88,7 +88,7 @@ class AuthProvider with ChangeNotifier {
         'favorites': favorites,
       });
     } catch (e) {
-      error = 'お気に入り設定に失敗しました';
+      error = '注文商品設定に失敗しました';
     }
     return error;
   }

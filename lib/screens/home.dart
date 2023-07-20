@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hirome_rental_information_web/common/functions.dart';
 import 'package:hirome_rental_information_web/common/style.dart';
 import 'package:hirome_rental_information_web/models/cart.dart';
 import 'package:hirome_rental_information_web/models/product.dart';
 import 'package:hirome_rental_information_web/providers/auth.dart';
+import 'package:hirome_rental_information_web/screens/history.dart';
+import 'package:hirome_rental_information_web/screens/order_cart.dart';
+import 'package:hirome_rental_information_web/screens/settings.dart';
 import 'package:hirome_rental_information_web/services/product.dart';
 import 'package:hirome_rental_information_web/widgets/cart_next_button.dart';
 import 'package:hirome_rental_information_web/widgets/custom_image.dart';
@@ -11,6 +15,7 @@ import 'package:hirome_rental_information_web/widgets/custom_lg_button.dart';
 import 'package:hirome_rental_information_web/widgets/link_text.dart';
 import 'package:hirome_rental_information_web/widgets/product_card.dart';
 import 'package:hirome_rental_information_web/widgets/quantity_button.dart';
+import 'package:hirome_rental_information_web/widgets/shop_login_button.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -32,11 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
         title: Text('${authProvider.shop?.name} : 注文'),
         actions: [
-          TextButton(
-            child: const Text(
-              '店舗アカウントログイン',
-              style: TextStyle(color: kWhiteColor),
-            ),
+          ShopLoginButton(
+            value: 99,
             onPressed: () {},
           ),
           TextButton(
@@ -44,10 +46,16 @@ class _HomeScreenState extends State<HomeScreen> {
               '注文履歴',
               style: TextStyle(color: kWhiteColor),
             ),
-            onPressed: () {},
+            onPressed: () => showBottomUpScreen(
+              context,
+              const HistoryScreen(),
+            ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => showBottomUpScreen(
+              context,
+              const SettingsScreen(),
+            ),
             icon: const Icon(Icons.settings),
           ),
         ],
@@ -118,7 +126,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: CartNextButton(
         carts: authProvider.carts,
-        onPressed: () {},
+        onPressed: () => showBottomUpScreen(
+          context,
+          const OrderCartScreen(),
+        ),
       ),
     );
   }
