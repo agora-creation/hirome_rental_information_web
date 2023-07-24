@@ -4,27 +4,30 @@ import 'package:hirome_rental_information_web/common/style.dart';
 
 class ShopLoginButton extends StatelessWidget {
   final int value;
-  final Function()? onPressed;
+  final Function()? onTap;
 
   const ShopLoginButton({
     required this.value,
-    this.onPressed,
+    this.onTap,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     if (value == 0) {
-      return TextButton(
-        onPressed: onPressed,
+      return GestureDetector(
+        onTap: onTap,
         child: const Text(
           '店舗アカウントログイン',
-          style: TextStyle(color: kWhiteColor),
+          style: TextStyle(
+            color: kWhiteColor,
+            fontSize: 16,
+          ),
         ),
       );
     }
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+    return GestureDetector(
+      onTap: onTap,
       child: badges.Badge(
         badgeStyle: const badges.BadgeStyle(
           badgeColor: kRedColor,
@@ -34,12 +37,15 @@ class ShopLoginButton extends StatelessWidget {
           '$value',
           style: const TextStyle(color: kWhiteColor),
         ),
-        position: badges.BadgePosition.topEnd(top: -15, end: -5),
-        child: TextButton(
-          onPressed: onPressed,
-          child: const Text(
-            '店舗アカウントログイン',
-            style: TextStyle(color: kWhiteColor),
+        position: badges.BadgePosition.topEnd(
+          top: -10,
+          end: -5,
+        ),
+        child: const Text(
+          '店舗アカウントログイン',
+          style: TextStyle(
+            color: kWhiteColor,
+            fontSize: 16,
           ),
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hirome_rental_information_web/common/style.dart';
 import 'package:hirome_rental_information_web/providers/auth.dart';
 import 'package:hirome_rental_information_web/providers/order.dart';
+import 'package:hirome_rental_information_web/providers/shop_login.dart';
 import 'package:hirome_rental_information_web/screens/home.dart';
 import 'package:hirome_rental_information_web/screens/login.dart';
 import 'package:hirome_rental_information_web/screens/splash.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: AuthProvider.initialize()),
         ChangeNotifierProvider.value(value: OrderProvider()),
+        ChangeNotifierProvider.value(value: ShopLoginProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

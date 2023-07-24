@@ -4,11 +4,15 @@ import 'package:hirome_rental_information_web/common/functions.dart';
 import 'package:hirome_rental_information_web/common/style.dart';
 import 'package:hirome_rental_information_web/models/cart.dart';
 import 'package:hirome_rental_information_web/models/product.dart';
+import 'package:hirome_rental_information_web/models/shop_login.dart';
 import 'package:hirome_rental_information_web/providers/auth.dart';
 import 'package:hirome_rental_information_web/screens/history.dart';
 import 'package:hirome_rental_information_web/screens/order_cart.dart';
 import 'package:hirome_rental_information_web/screens/settings.dart';
+import 'package:hirome_rental_information_web/screens/shop_login.dart';
 import 'package:hirome_rental_information_web/services/product.dart';
+import 'package:hirome_rental_information_web/services/shop_login.dart';
+import 'package:hirome_rental_information_web/widgets/animation_background.dart';
 import 'package:hirome_rental_information_web/widgets/cart_next_button.dart';
 import 'package:hirome_rental_information_web/widgets/custom_image.dart';
 import 'package:hirome_rental_information_web/widgets/custom_lg_button.dart';
@@ -27,99 +31,151 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   ProductService productService = ProductService();
+  ShopLoginService shopLoginService = ShopLoginService();
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('${authProvider.shop?.name} : 注文'),
-        actions: [
-          ShopLoginButton(
-            value: 99,
-            onPressed: () {},
-          ),
-          TextButton(
-            child: const Text(
-              '注文履歴',
-              style: TextStyle(color: kWhiteColor),
-            ),
-            onPressed: () => showBottomUpScreen(
-              context,
-              const HistoryScreen(),
-            ),
-          ),
-          IconButton(
-            onPressed: () => showBottomUpScreen(
-              context,
-              const SettingsScreen(),
-            ),
-            icon: const Icon(Icons.settings),
-          ),
-        ],
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          const Text(
-            '注文したい商品をタップしてください',
-            style: TextStyle(
-              color: kWhiteColor,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: productService.streamList(),
-              builder: (context, snapshot) {
-                List<ProductModel> products = [];
-                List<String> favorites = authProvider.shop?.favorites ?? [];
-                if (snapshot.hasData) {
-                  for (DocumentSnapshot<Map<String, dynamic>> doc
-                      in snapshot.data!.docs) {
-                    ProductModel product = ProductModel.fromSnapshot(doc);
-                    var contain = favorites.where((e) => e == product.number);
-                    if (contain.isNotEmpty) {
-                      products.add(product);
-                    }
-                  }
-                }
-                if (products.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      '注文できる商品がありません\n注文商品設定をご確認ください',
-                      style: TextStyle(
-                        color: kWhiteColor,
-                        fontSize: 16,
-                      ),
-                    ),
-                  );
-                }
-                return GridView.builder(
-                  gridDelegate: kProductGrid,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    ProductModel product = products[index];
-                    return ProductCard(
-                      product: product,
-                      carts: authProvider.carts,
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (context) => ProductDetailsDialog(
-                          authProvider: authProvider,
-                          product: product,
+          const AnimationBackground(),
+          SafeArea(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 16,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${authProvider.shop?.name} : 注文',
+                        style: const TextStyle(
+                          color: kWhiteColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ).then((value) {
-                        authProvider.initCarts();
-                      }),
-                    );
-                  },
-                );
-              },
+                      ),
+                      Row(
+                        children: [
+                          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                            stream: shopLoginService.streamList(),
+                            builder: (context, snapshot) {
+                              List<ShopLoginModel> shopLogins = [];
+                              if (snapshot.hasData) {
+                                for (DocumentSnapshot<Map<String, dynamic>> doc
+                                    in snapshot.data!.docs) {
+                                  shopLogins
+                                      .add(ShopLoginModel.fromSnapshot(doc));
+                                }
+                              }
+                              return ShopLoginButton(
+                                value: shopLogins.length,
+                                onTap: () => showBottomUpScreen(
+                                  context,
+                                  const ShopLoginScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                          const SizedBox(width: 16),
+                          GestureDetector(
+                            onTap: () => showBottomUpScreen(
+                              context,
+                              const HistoryScreen(),
+                            ),
+                            child: const Text(
+                              '注文履歴',
+                              style: TextStyle(
+                                color: kWhiteColor,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          GestureDetector(
+                            onTap: () => showBottomUpScreen(
+                              context,
+                              const SettingsScreen(),
+                            ),
+                            child: const Icon(
+                              Icons.settings,
+                              color: kWhiteColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  '注文したい商品をタップしてください',
+                  style: TextStyle(
+                    color: kWhiteColor,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Expanded(
+                  child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: productService.streamList(),
+                    builder: (context, snapshot) {
+                      List<ProductModel> products = [];
+                      List<String> favorites =
+                          authProvider.shop?.favorites ?? [];
+                      if (snapshot.hasData) {
+                        for (DocumentSnapshot<Map<String, dynamic>> doc
+                            in snapshot.data!.docs) {
+                          ProductModel product = ProductModel.fromSnapshot(doc);
+                          var contain =
+                              favorites.where((e) => e == product.number);
+                          if (contain.isNotEmpty) {
+                            products.add(product);
+                          }
+                        }
+                      }
+                      if (products.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            '注文できる商品がありません\n注文商品設定をご確認ください',
+                            style: TextStyle(
+                              color: kWhiteColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                        );
+                      }
+                      return GridView.builder(
+                        gridDelegate: kProductGrid,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        itemCount: products.length,
+                        itemBuilder: (context, index) {
+                          ProductModel product = products[index];
+                          return ProductCard(
+                            product: product,
+                            carts: authProvider.carts,
+                            onTap: () => showDialog(
+                              context: context,
+                              builder: (context) => ProductDetailsDialog(
+                                authProvider: authProvider,
+                                product: product,
+                              ),
+                            ).then((value) {
+                              authProvider.initCarts();
+                            }),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
