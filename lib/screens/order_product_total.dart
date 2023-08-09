@@ -101,8 +101,10 @@ class _OrderProductTotalScreenState extends State<OrderProductTotalScreen> {
                     for (DocumentSnapshot<Map<String, dynamic>> doc
                         in snapshot.data!.docs) {
                       OrderModel order = OrderModel.fromSnapshot(doc);
-                      for (CartModel cart in order.carts) {
-                        totalMap[cart.number] = cart.deliveryQuantity;
+                      if (order.status == 1) {
+                        for (CartModel cart in order.carts) {
+                          totalMap[cart.number] = cart.deliveryQuantity;
+                        }
                       }
                     }
                   }
