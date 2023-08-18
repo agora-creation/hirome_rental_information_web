@@ -42,7 +42,7 @@ class ShopLoginButton extends StatelessWidget {
           end: -5,
         ),
         child: const Text(
-          '店舗アカウントログイン',
+          '店舗ログイン申請',
           style: TextStyle(
             color: kWhiteColor,
             fontSize: 16,
