@@ -39,7 +39,7 @@ class _OrderCartScreenState extends State<OrderCartScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 600),
+        padding: const EdgeInsets.symmetric(horizontal: 400),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
