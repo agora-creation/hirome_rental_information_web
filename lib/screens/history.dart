@@ -60,7 +60,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 400),
+        padding: const EdgeInsets.symmetric(horizontal: 600),
         child: Column(
           children: [
             DateRangeField(

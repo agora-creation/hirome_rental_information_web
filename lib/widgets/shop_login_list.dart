@@ -43,6 +43,13 @@ class ShopLoginList extends StatelessWidget {
                   ),
                 ),
                 Text(
+                  '申請者名 : ${shopLogin.requestName}',
+                  style: const TextStyle(
+                    color: kGreyColor,
+                    fontSize: 12,
+                  ),
+                ),
+                Text(
                   '端末名 : ${shopLogin.deviceName}',
                   style: const TextStyle(
                     color: kGreyColor,

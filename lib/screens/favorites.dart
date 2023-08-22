@@ -45,7 +45,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
           icon: const Icon(
             Icons.chevron_left,
             color: kBlackColor,
-            size: 32.0,
+            size: 32,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -72,7 +72,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 400),
+        padding: const EdgeInsets.symmetric(horizontal: 600),
         child: Column(
           children: [
             const Text(
