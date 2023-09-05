@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "target": "information-site",
+    "site": "hirome-rental-information",
     "public": "build/web",
     "ignore": [
       "firebase.json",
