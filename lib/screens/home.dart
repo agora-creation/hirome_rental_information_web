@@ -56,7 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (snapshot.hasData) {
                           for (DocumentSnapshot<Map<String, dynamic>> doc
                               in snapshot.data!.docs) {
-                            shopLogins.add(ShopLoginModel.fromSnapshot(doc));
+                            ShopLoginModel shopLogin =
+                                ShopLoginModel.fromSnapshot(doc);
+                            if (shopLogin.accept == false) {
+                              shopLogins.add(ShopLoginModel.fromSnapshot(doc));
+                            }
                           }
                         }
                         return ShopLoginButton(

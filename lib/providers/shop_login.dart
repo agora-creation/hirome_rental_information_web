@@ -11,6 +11,7 @@ class ShopLoginProvider with ChangeNotifier {
       shopLoginService.update({
         'id': shopLogin.id,
         'accept': true,
+        'acceptedAt': DateTime.now(),
       });
     } catch (e) {
       error = '承認に失敗しました';
@@ -18,12 +19,12 @@ class ShopLoginProvider with ChangeNotifier {
     return error;
   }
 
-  Future<String?> reject(ShopLoginModel shopLogin) async {
+  Future<String?> delete(ShopLoginModel shopLogin) async {
     String? error;
     try {
       shopLoginService.delete({'id': shopLogin.id});
     } catch (e) {
-      error = '却下に失敗しました';
+      error = 'ブロックに失敗しました';
     }
     return error;
   }

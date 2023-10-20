@@ -30,7 +30,7 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
         automaticallyImplyLeading: false,
         backgroundColor: kWhiteColor,
         title: Text(
-          '${authProvider.shop?.name} : 店舗ログイン申請',
+          '${authProvider.shop?.name} : 店舗ログイン一覧',
           style: const TextStyle(color: kBlackColor),
         ),
         actions: [
@@ -45,7 +45,7 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
         child: Column(
           children: [
             const Text(
-              '各店舗が注文するアプリで、店舗アカウントのログインがあった場合に、二段階認証の為、こちらにログイン申請が送られます。\n『承認』するまでは、店舗はログインできません。身に覚えのないログイン申請は『却下』してください。',
+              '各店舗が注文するアプリで、店舗アカウントのログインがあった場合に、二段階認証の為、こちらにログイン申請が送られます。\n『承認』するまでは、店舗はログインできません。身に覚えのないログイン申請は『ブロック』してください。',
               style: TextStyle(
                 color: kGrey2Color,
                 fontSize: 14,
@@ -66,7 +66,7 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                   }
                   if (shopLogins.isEmpty) {
                     return const Center(
-                      child: Text('ログイン申請がありません'),
+                      child: Text('店舗ログインがありません'),
                     );
                   }
                   return ListView.builder(
@@ -89,14 +89,14 @@ class _ShopLoginScreenState extends State<ShopLoginScreen> {
                         },
                         rejectOnPressed: () async {
                           String? error =
-                              await shopLoginProvider.reject(shopLogin);
+                              await shopLoginProvider.delete(shopLogin);
                           if (error != null) {
                             if (!mounted) return;
                             showMessage(context, error, false);
                             return;
                           }
                           if (!mounted) return;
-                          showMessage(context, '却下しました', true);
+                          showMessage(context, 'ブロックしました', true);
                         },
                       );
                     },

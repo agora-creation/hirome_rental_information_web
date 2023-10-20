@@ -18,7 +18,7 @@ class ShopLoginButton extends StatelessWidget {
       return GestureDetector(
         onTap: onTap,
         child: const Text(
-          '店舗ログイン申請',
+          '店舗ログイン一覧',
           style: TextStyle(
             color: kWhiteColor,
             fontSize: 16,
@@ -42,7 +42,7 @@ class ShopLoginButton extends StatelessWidget {
           end: -5,
         ),
         child: const Text(
-          '店舗ログイン申請',
+          '店舗ログイン一覧',
           style: TextStyle(
             color: kWhiteColor,
             fontSize: 16,

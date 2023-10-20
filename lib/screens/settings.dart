@@ -53,7 +53,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             const SizedBox(height: 32),
             Center(
               child: LinkText(
-                label: 'ログアウト',
+                label: '初期化する',
                 labelColor: kRedColor,
                 onTap: () async {
                   await authProvider.signOut();

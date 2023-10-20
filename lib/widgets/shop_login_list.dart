@@ -18,9 +18,10 @@ class ShopLoginList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: kGreyColor)),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: shopLogin.accept == false ? kRedColor.withOpacity(0.3) : null,
+        border: const Border(bottom: BorderSide(color: kGreyColor)),
       ),
       child: Row(
         children: [
@@ -28,53 +29,58 @@ class ShopLoginList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  shopLogin.shopName,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      shopLogin.shopName,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      shopLogin.accept ? 'でログイン中' : 'でログイン申請がありました',
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 4),
                 Text(
-                  'ログイン日時 : ${dateText('yyyy/MM/dd HH:mm', shopLogin.createdAt)}',
-                  style: const TextStyle(
-                    color: kGreyColor,
-                    fontSize: 12,
-                  ),
+                  '申請日時 : ${dateText('yyyy/MM/dd HH:mm', shopLogin.createdAt)}',
+                  style: const TextStyle(fontSize: 12),
                 ),
+                shopLogin.accept
+                    ? Text(
+                        '承認日時 : ${dateText('yyyy/MM/dd HH:mm', shopLogin.acceptedAt)}',
+                        style: const TextStyle(fontSize: 12),
+                      )
+                    : Container(),
                 Text(
-                  '申請者名 : ${shopLogin.requestName}',
-                  style: const TextStyle(
-                    color: kGreyColor,
-                    fontSize: 12,
-                  ),
-                ),
-                Text(
-                  '端末名 : ${shopLogin.deviceName}',
-                  style: const TextStyle(
-                    color: kGreyColor,
-                    fontSize: 12,
-                  ),
+                  '申請者名 : ${shopLogin.requestName}、端末名 : ${shopLogin.deviceName}',
+                  style: const TextStyle(fontSize: 12),
                 ),
               ],
             ),
           ),
           Row(
             children: [
-              TextButton(
-                onPressed: acceptOnPressed,
-                style: TextButton.styleFrom(
-                  backgroundColor: kBlueColor,
-                  padding: const EdgeInsets.all(8),
-                ),
-                child: const Text(
-                  '承認',
-                  style: TextStyle(
-                    color: kWhiteColor,
-                    fontSize: 14,
-                  ),
-                ),
-              ),
+              shopLogin.accept == false
+                  ? TextButton(
+                      onPressed: acceptOnPressed,
+                      style: TextButton.styleFrom(
+                        backgroundColor: kBlueColor,
+                        padding: const EdgeInsets.all(8),
+                      ),
+                      child: const Text(
+                        '承認する',
+                        style: TextStyle(
+                          color: kWhiteColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                    )
+                  : Container(),
               const SizedBox(width: 4),
               TextButton(
                 onPressed: rejectOnPressed,
@@ -83,7 +89,7 @@ class ShopLoginList extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                 ),
                 child: const Text(
-                  '却下',
+                  'ブロックする',
                   style: TextStyle(
                     color: kWhiteColor,
                     fontSize: 14,
