@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ShopLoginModel shopLogin =
                                 ShopLoginModel.fromSnapshot(doc);
                             if (shopLogin.accept == false) {
-                              shopLogins.add(ShopLoginModel.fromSnapshot(doc));
+                              shopLogins.add(shopLogin);
                             }
                           }
                         }
