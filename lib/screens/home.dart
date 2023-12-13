@@ -9,6 +9,7 @@ import 'package:hirome_rental_information_web/providers/auth.dart';
 import 'package:hirome_rental_information_web/screens/history.dart';
 import 'package:hirome_rental_information_web/screens/order_cart.dart';
 import 'package:hirome_rental_information_web/screens/order_product_total.dart';
+import 'package:hirome_rental_information_web/screens/product.dart';
 import 'package:hirome_rental_information_web/screens/settings.dart';
 import 'package:hirome_rental_information_web/screens/shop_login.dart';
 import 'package:hirome_rental_information_web/services/product.dart';
@@ -102,7 +103,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(width: 24),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () => showBottomUpScreen(
+                        context,
+                        const ProductScreen(),
+                      ),
                       child: const Text(
                         '商品管理(実装中)',
                         style: TextStyle(
