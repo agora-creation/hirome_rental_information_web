@@ -102,6 +102,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(width: 24),
                     GestureDetector(
+                      onTap: () {},
+                      child: const Text(
+                        '商品管理(実装中)',
+                        style: TextStyle(
+                          color: kWhiteColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 24),
+                    GestureDetector(
                       onTap: () => showBottomUpScreen(
                         context,
                         const SettingsScreen(),
